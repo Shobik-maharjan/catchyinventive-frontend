@@ -8,7 +8,7 @@ import { IoHomeOutline } from "react-icons/io5";
 const Sidebar = ({ openSidebar }) => {
   return (
     <div
-      className={`bg-blue-300 fixed top-16 left-0 h-full ${
+      className={`bg-white fixed top-16 left-0 h-full ${
         openSidebar ? "w-48" : "w-16"
       } transition-all duation-500 ease-in-out`}
     >

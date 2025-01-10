@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminLogin from "pages/auth/AdminLogin";
 import AdminLayout from "./layout/AdminLayout";
 import AdminRoute from "./routes/AdminRoute";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer closeOnClick />
         <Routes>
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="/admin/*" element={<AdminLayout />}>

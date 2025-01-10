@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { USERS } from "src/utils/db/dummy";
 import { CiSearch } from "react-icons/ci";
+import RegisterUser from "components/admin/RegisterUser";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { FiEdit } from "react-icons/fi";
+import EditUser from "components/admin/EditUser";
 
 const Users = () => {
+  const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+
+  const closeCreateUserModal = () => {
+    setIsCreateUserModalOpen(false);
+  };
+  const closeEditUserModal = () => {
+    setIsEditUserOpen(false);
+  };
+
   return (
     <>
       <div className="flex justify-between gap-4 mb-4">
         <div className="relative w-[90%]">
           <input
             type="search"
-            name=""
-            id=""
             placeholder="Search"
             className="w-full border border-zinc-400 rounded-md p-2 pl-8 outline-none"
           />
-          <CiSearch className="absolute top-2.5 left-1 text-2xl" />
+          <CiSearch className="absolute top-1/2 -translate-y-1/2 left-1 text-2xl" />
         </div>
-        <button className="bg-teal-600 px-4 py-2 rounded-md w-fit">
+        <button
+          className="bg-teal-600 px-4 py-2 text-white rounded-md w-fit hover:bg-teal-600/90"
+          onClick={() => setIsCreateUserModalOpen(true)}
+        >
           Create&nbsp;User
         </button>
+        {isCreateUserModalOpen && (
+          <RegisterUser
+            closeModal={closeCreateUserModal}
+            isModalOpen={isCreateUserModalOpen}
+          />
+        )}
       </div>
       <div className="bg-white rounded-t-xl">
         <table className="min-w-full rounded-md table-auto border-collapse">
@@ -37,16 +58,39 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {[...USERS, ...USERS].map((user) => (
+            {USERS.map((user) => (
               <tr key={user.id} className="border-b border-zinc-200">
-                <td className="p-2 border-r border-zinc-200">{user.id}</td>
-                <td className="p-2 border-r border-zinc-200">{user.name}</td>
-                <td className="p-2 border-r border-zinc-200">{user.role}</td>
-                <td className="p-2 border-r border-zinc-200">{user.email}</td>
+                <td className="p-2 border-r border-zinc-200">{user?.id}</td>
+                <td className="p-2 border-r border-zinc-200">{user?.name}</td>
                 <td className="p-2 border-r border-zinc-200">
-                  {user.isEnabled ? "yes" : "no"}
+                  {user?.role === "1" ? "admin" : "user"}
                 </td>
-                <td className="p-2">Action</td>
+                <td className="p-2 border-r border-zinc-200">{user?.email}</td>
+                <td className="p-2 border-r border-zinc-200">
+                  <div className="flex items-center">
+                    {user?.isEnabled ? "yes" : "no"}
+                    <input
+                      type="checkbox"
+                      className="toggle border-blue-500 bg-blue-500 [--tglbg:white] hover:bg-blue-700"
+                      defaultChecked={user?.isEnabled}
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div className="p-2 flex items-center gap-2 my-auto text-xl">
+                    <FiEdit
+                      className="cursor-pointer hover:text-blue-500"
+                      onClick={() => setIsEditUserOpen(true)}
+                    />
+                    {isEditUserOpen && (
+                      <EditUser
+                        closeModal={closeEditUserModal}
+                        isModalOpen={isEditUserOpen}
+                      />
+                    )}
+                    <RiDeleteBin6Fill className="cursor-pointer hover:text-red-500" />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
