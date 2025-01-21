@@ -3,15 +3,12 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { registerSchema } from "src/schemas";
-import { USERS } from "src/utils/db/dummy";
+import { PRODUCTS } from "src/utils/db/dummy";
 
-const EditUser = ({ closeModal, isModalOpen, userId }) => {
+const CreateProduct = ({ closeModal, isModalOpen }) => {
   const api = import.meta.env.VITE_PORT;
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const selectedUser = USERS.find((user) => user.id === userId);
-  console.log(selectedUser);
 
   const {
     values,
@@ -23,35 +20,17 @@ const EditUser = ({ closeModal, isModalOpen, userId }) => {
     setErrors,
   } = useFormik({
     initialValues: {
-      name: selectedUser?.name,
-      email: selectedUser?.email,
-      role: selectedUser?.role,
-      err: "",
+      productName: "",
+      productCategory: "",
+      productPrice: "",
+      productStock: "",
+      productImage: "",
     },
     validationSchema: registerSchema,
     onSubmit: async (values, actions) => {
       try {
         setIsLoading(true);
-        const data = await axios.post(`${api}/edit`, {
-          name: values.name,
-          email: values.email,
-          role: values.role,
-        });
-        setTimeout(() => {
-          if (data.data.user) {
-            toast.success("User Created Successfully");
-          }
-          setIsLoading(false);
-        }, 500);
-        actions.resetForm();
-      } catch (error) {
-        setTimeout(() => {
-          setErrors({
-            err: error.response.data.error,
-          });
-          setIsLoading(false);
-        }, 500);
-      }
+      } catch (error) {}
     },
   });
 
@@ -59,8 +38,13 @@ const EditUser = ({ closeModal, isModalOpen, userId }) => {
     <>
       <dialog
         id="my_modal_3"
-        className="modal sm:modal-middle text-base backdrop-blur-[2px] bg-black/30"
+        className="modal modal-middle text-base backdrop-blur-[2px] bg-black/30"
         open={isModalOpen}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            closeModal(); // Close modal if the backdrop is clicked
+          }
+        }}
       >
         <div className="modal-box">
           <form method="dialog" onSubmit={handleSubmit}>
@@ -71,48 +55,78 @@ const EditUser = ({ closeModal, isModalOpen, userId }) => {
             >
               ✕
             </button>
-            <h2 className="mb-4 text-lg">Edit User</h2>
+            <h2 className="mb-4 text-lg">Create Product</h2>
             <div className="flex flex-col gap-4">
               <div>
-                <label className="name">Name</label>
+                <label className="name">Product Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={values.name}
+                  name="productName"
+                  value={values.productName}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="grow border w-full p-2.5 rounded-md"
-                  placeholder="Name"
+                  placeholder="Product Name"
                 />
                 <div className="text-red-500">
                   {errors.name && touched.name ? errors.name : null}
                 </div>
               </div>
               <div>
-                <label className="email">Email</label>
+                <label className="productCategory">Category</label>
                 <input
-                  type="email"
-                  name="email"
-                  value={values.email}
+                  type="text"
+                  name="productCategory"
+                  value={values.productCategory}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="grow border w-full p-2.5 rounded-md"
-                  placeholder="Email"
+                  placeholder="category"
                 />
                 <div className="text-red-500">
                   {errors.email && touched.email ? errors.email : null}
                 </div>
               </div>
               <div>
-                <label className="role">Role</label>
+                <label className="productPrice">Price</label>
                 <input
                   type="text"
-                  name="role"
-                  value={values.role}
+                  name="productPrice"
+                  value={values.productPrice}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="grow border w-full p-2.5 rounded-md"
-                  placeholder="Role"
+                  placeholder="Price"
+                />
+                <div className="text-red-500">
+                  {errors.role && touched.role ? errors.role : null}
+                </div>
+              </div>
+              <div>
+                <label className="productStock">Stock</label>
+                <input
+                  type="text"
+                  name="productStock"
+                  value={values.productStock}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="grow border w-full p-2.5 rounded-md"
+                  placeholder="Stock"
+                />
+                <div className="text-red-500">
+                  {errors.role && touched.role ? errors.role : null}
+                </div>
+              </div>
+              <div>
+                <label className="productImage">Image</label>
+                <input
+                  type="text"
+                  name="productImage"
+                  value={values.productImage}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="grow border w-full p-2.5 rounded-md"
+                  placeholder="Image"
                 />
                 <div className="text-red-500">
                   {errors.role && touched.role ? errors.role : null}
@@ -133,12 +147,9 @@ const EditUser = ({ closeModal, isModalOpen, userId }) => {
             </div>
           </form>
         </div>
-        <form method="dialog" className="modal-backdrop">
-          <button onClick={closeModal}></button>
-        </form>
       </dialog>
     </>
   );
 };
 
-export default EditUser;
+export default CreateProduct;

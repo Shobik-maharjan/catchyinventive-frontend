@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { registerUser } from "src/features/users/userActions";
 import { registerSchema } from "src/schemas";
 
 const RegisterUser = ({ closeModal, isModalOpen }) => {
-  const api = import.meta.env.VITE_PORT;
+  const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     values,
@@ -26,29 +29,17 @@ const RegisterUser = ({ closeModal, isModalOpen }) => {
       err: "",
     },
     validationSchema: registerSchema,
-    onSubmit: async (values, actions) => {
+    onSubmit: async (values) => {
       try {
-        setIsLoading(true);
-        const data = await axios.post(`${api}/register`, {
+        const userData = {
           name: values.name,
           email: values.email,
           password: values.password,
           password_confirmation: values.password_confirmation,
-        });
-        setTimeout(() => {
-          if (data.data.user) {
-            toast.success("User Created Successfully");
-          }
-          setIsLoading(false);
-        }, 500);
-        actions.resetForm();
+        };
+        dispatch(registerUser({ userData, navigate }));
       } catch (error) {
-        setTimeout(() => {
-          setErrors({
-            err: error.response.data.error,
-          });
-          setIsLoading(false);
-        }, 500);
+        toast.error(error);
       }
     },
   });
@@ -57,13 +48,8 @@ const RegisterUser = ({ closeModal, isModalOpen }) => {
     <>
       <dialog
         id="my_modal_3"
-        className="modal modal-bottom sm:modal-middle"
+        className="modal sm:modal-middle backdrop-blur-[2px] bg-black/30"
         open={isModalOpen}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            closeModal(); // Close modal if the backdrop is clicked
-          }
-        }}
       >
         <div className="modal-box">
           <form method="dialog" onSubmit={handleSubmit}>
@@ -74,7 +60,7 @@ const RegisterUser = ({ closeModal, isModalOpen }) => {
             >
               ✕
             </button>
-            <h2>Create New User</h2>
+            <h2 className="mb-4 text-lg">Create New User</h2>
             <div className="flex flex-col gap-4">
               <div>
                 <label className="name">Name</label>
@@ -166,6 +152,9 @@ const RegisterUser = ({ closeModal, isModalOpen }) => {
             </div>
           </form>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button onClick={closeModal}></button>
+        </form>
       </dialog>
     </>
   );

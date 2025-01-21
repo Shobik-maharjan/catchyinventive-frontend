@@ -1,12 +1,24 @@
+import CreateProduct from "components/admin/CreateProduct";
+import EditProduct from "components/admin/EditProduct";
+import RegisterUser from "components/admin/RegisterUser";
+import ConformationBox from "components/ConformationBox";
+import Pagination from "components/Pagination";
 import React, { useState } from "react";
+import { CiSearch } from "react-icons/ci";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { PRODUCTS } from "src/utils/db/dummy";
 
 const Products = () => {
+  const [isEditProductOpen, setIsEditProductOpen] = useState(null);
+  const [isProductDeleteOpen, setIsProductDeleteOpen] = useState(null);
+  const [isCreateProductModalOpen, setIsCreateProductModalOpen] =
+    useState(false);
+
   // State to track the current page
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  console.log("🚀 ~ Products ~ currentPage:", currentPage);
+  const productsPerPage = 4;
 
   // Calculate the index of the last and first product based on the current page
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -18,24 +30,41 @@ const Products = () => {
     indexOfLastProduct
   );
 
-  // Calculate total number of pages
-  const totalPages = Math.ceil(PRODUCTS.length / productsPerPage);
-
-  // Handler functions for pagination
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+  const closeEditProductModal = () => {
+    setIsEditProductOpen(null);
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+  const closeProductDeleteModal = () => {
+    setIsProductDeleteOpen(null);
   };
 
+  const closeCreateProductModal = () => {
+    setIsCreateProductModalOpen(false);
+  };
   return (
-    <div>
+    <>
+      <div className="flex justify-between gap-4 mb-4">
+        <div className="relative w-[90%]">
+          <input
+            type="search"
+            placeholder="Search"
+            className="w-full border border-zinc-400 rounded-md p-2 pl-8 outline-none"
+          />
+          <CiSearch className="absolute top-1/2 -translate-y-1/2 left-1 text-2xl" />
+        </div>
+        <button
+          className="bg-teal-600 px-4 py-2 text-white rounded-md w-fit hover:bg-teal-600/90"
+          onClick={() => setIsCreateProductModalOpen(true)}
+        >
+          Create&nbsp;Product
+        </button>
+        {isCreateProductModalOpen && (
+          <CreateProduct
+            isModalOpen={isCreateProductModalOpen}
+            closeModal={closeCreateProductModal}
+          />
+        )}
+      </div>
       <div className="bg-white rounded-t-xl">
         <table className="min-w-full rounded-md table-auto border-collapse">
           <thead>
@@ -60,7 +89,7 @@ const Products = () => {
                 <td className="p-2 border-r border-zinc-200">{product?.id}</td>
                 <td className="p-2 border-r border-zinc-200 flex items-center">
                   <img
-                    src={product.productImage}
+                    src={product?.productImage}
                     alt=""
                     className="w-10 h-10 object-contain"
                   />
@@ -78,8 +107,28 @@ const Products = () => {
 
                 <td>
                   <div className="p-2 flex items-center gap-2 my-auto text-xl">
-                    <FiEdit className="cursor-pointer hover:text-blue-500" />
-                    <RiDeleteBin6Fill className="cursor-pointer hover:text-red-500" />
+                    <FiEdit
+                      className="cursor-pointer hover:text-blue-500"
+                      onClick={() => setIsEditProductOpen(product?.id)}
+                    />
+                    {isEditProductOpen === product.id && (
+                      <EditProduct
+                        closeModal={closeEditProductModal}
+                        isModalOpen={isEditProductOpen}
+                        productId={product?.id}
+                      />
+                    )}
+                    <RiDeleteBin6Fill
+                      className="cursor-pointer hover:text-red-500"
+                      onClick={() => setIsProductDeleteOpen(product?.id)}
+                    />
+                    {isProductDeleteOpen === product.id && (
+                      <ConformationBox
+                        closeModal={closeProductDeleteModal}
+                        isModalOpen={isProductDeleteOpen}
+                        id={product?.id}
+                      />
+                    )}
                   </div>
                 </td>
               </tr>
@@ -87,32 +136,13 @@ const Products = () => {
           </tbody>
         </table>
       </div>
-      {/* Pagination Controls */}
-      <div className="flex justify-center gap-4 items-center mt-4">
-        {/* Previous Button */}
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-300 text-black rounded-lg disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        {/* Page Number Display */}
-        <span className="text-lg font-semibold">
-          Page {currentPage} of {totalPages}
-        </span>
-
-        {/* Next Button */}
-        <button
-          onClick={nextPage}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-300 text-black rounded-lg disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
-    </div>
+      <Pagination
+        totalItems={PRODUCTS?.length}
+        itemsPerPage={productsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </>
   );
 };
 

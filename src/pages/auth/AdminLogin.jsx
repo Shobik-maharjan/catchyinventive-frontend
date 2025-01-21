@@ -5,52 +5,42 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginSchema } from "src/schemas";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "src/features/users/userActions";
 
 const AdminLogin = () => {
-  const api = import.meta.env.VITE_PORT;
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state?.user);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    setErrors,
-  } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: loginSchema,
-    onSubmit: async (values, action) => {
-      try {
-        const data = await axios.post(`${api}/login`, {
-          email: values.email,
-          password: values.password,
-        });
-        console.log(data);
-
-        setErrors({ password: data.data.message });
-        if (data.data.user) {
-          toast.success("Login Successfully");
-          navigate("/admin");
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: loginSchema,
+      onSubmit: (values) => {
+        try {
+          const userCredentials = {
+            email: values.email,
+            password: values.password,
+          };
+          dispatch(loginUser({ userCredentials, navigate }));
+        } catch (error) {
+          toast.error(error);
         }
-      } catch (error) {
-        toast.error("Invalid Crediental");
-      }
-    },
-  });
+      },
+    });
   return (
     <div className="">
-      <div className="bg-[#15212d] h-screen flex items-center">
+      <div className="bg-[#997049] h-screen flex items-center">
         <form className="w-[50%] px-10" onSubmit={handleSubmit}>
           <div className="text-white">
             <h1 className="text-center text-2xl mb-8 uppercase">
@@ -69,7 +59,7 @@ const AdminLogin = () => {
                   onChange={handleChange}
                   value={values.email}
                   onBlur={handleBlur}
-                  className="w-ful p-2 border border-white/30 rounded outline-none bg-[#15212d]"
+                  className="w-ful p-2 border border-white/30 rounded outline-none bg-transparent"
                 />
                 <div className="text-red-500">
                   {errors.email && touched.email ? errors.email : null}
@@ -87,7 +77,7 @@ const AdminLogin = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Password"
-                    className="w-full p-2 border border-white/30 rounded outline-none bg-[#15212d]"
+                    className="w-full p-2 border border-white/30 rounded outline-none bg-transparent"
                   />
                   {values.password.length >= 0 && (
                     <div
@@ -102,10 +92,15 @@ const AdminLogin = () => {
                   {errors.password && touched.password ? errors.password : null}
                 </div>
               </div>
-              <div className="mb-3">Forgot Password?</div>
+              <div className="mb-3 cursor-pointer">Forgot Password?</div>
               <button
                 type="submit"
-                className="py-2.5 px-5 rounded text-xl border border-white/30"
+                className={`py-2.5 px-5 rounded text-xl border border-white/30 bg-[#764f15] hover:bg-[#997049] ${
+                  user?.status === "loading"
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                disabled={user?.status === "loading"}
               >
                 Login
               </button>
@@ -114,7 +109,7 @@ const AdminLogin = () => {
         </form>
         <div className="w-[60%]">
           <img
-            src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+            src="https://cdn11.bigcommerce.com/s-ced79/images/stencil/608x608/products/1094/40463/FB-1.5cm-Assorted-100-1__02015.1729238489.jpg?c=2"
             alt=""
             className="h-screen object-cover"
           />

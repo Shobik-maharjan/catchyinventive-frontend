@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { IoMdNotifications } from "react-icons/io";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxAvatar, RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -34,33 +34,27 @@ const Navbar = ({ toggleSidebar }) => {
     await axios.post(`${api}/logout`);
     navigate("/admin/login");
   };
+
   return (
-    <div className="bg-white sticky z-20 top-0 w-full px-4 h-16 flex justify-between content-center border-b">
+    <div className="bg-white z-30 sticky top-0 w-full px-4 h-16 flex justify-between content-center border-b">
       <div className="flex items-center gap-4">
         <RxHamburgerMenu
-          className="  text-xl cursor-pointer"
+          className="text-xl cursor-pointer"
           onClick={toggleSidebar}
         />
-        <Link to="/admin">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGi06jOWFhqsqiks8os-n7H2vlSQGE893SIQ&s"
-            alt="logo"
-            width="50px"
-            className="rounded-full"
-          />
-        </Link>
       </div>
       <ul className="flex justify-end gap-4 items-center">
         <li className="text-3xl cursor-pointer">
-          <IoMdNotifications />
+          <IoMdNotificationsOutline />
         </li>
-        <li className="text-3xl cursor-pointer dropdown">
+        {/* <div className="dropdown"> */}
+        <li className="text-3xl cursor-pointer">
           <RxAvatar onClick={toggleProfileOpen} />
         </li>
         {isProfileOpen && (
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-base-100 w-52 p-2 rounded-none shadow absolute right-0 top-16"
+            className={`menu bg-base-100 w-52 p-2 rounded-none shadow absolute right-0 top-16 max-h-[calc(100vh-4rem)] overflow-y-auto`}
             ref={dropdownRef}
           >
             <li>
@@ -70,6 +64,8 @@ const Navbar = ({ toggleSidebar }) => {
             </li>
           </ul>
         )}
+        {/* </div> */}
+        {/* </li> */}
       </ul>
     </div>
   );

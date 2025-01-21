@@ -5,16 +5,29 @@ import RegisterUser from "components/admin/RegisterUser";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import EditUser from "components/admin/EditUser";
+import Pagination from "components/Pagination";
 
 const Users = () => {
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
-  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(null);
+
+  // State to track the current page
+  const [currentPage, setCurrentPage] = useState(1);
+  console.log("🚀 ~ Products ~ currentPage:", currentPage);
+  const userPerPage = 4;
+
+  // Calculate the index of the last and first product based on the current page
+  const indexOfLastUser = currentPage * userPerPage;
+  const indexOfFirstUser = indexOfLastUser - userPerPage;
+
+  // Slice the PRODUCTS array to get only the products for the current page
+  const currentUsers = USERS.slice(indexOfFirstUser, indexOfLastUser);
 
   const closeCreateUserModal = () => {
     setIsCreateUserModalOpen(false);
   };
   const closeEditUserModal = () => {
-    setIsEditUserOpen(false);
+    setIsEditUserOpen(null);
   };
 
   return (
@@ -58,7 +71,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {USERS.map((user) => (
+            {currentUsers.map((user) => (
               <tr key={user.id} className="border-b border-zinc-200">
                 <td className="p-2 border-r border-zinc-200">{user?.id}</td>
                 <td className="p-2 border-r border-zinc-200">{user?.name}</td>
@@ -80,12 +93,13 @@ const Users = () => {
                   <div className="p-2 flex items-center gap-2 my-auto text-xl">
                     <FiEdit
                       className="cursor-pointer hover:text-blue-500"
-                      onClick={() => setIsEditUserOpen(true)}
+                      onClick={() => setIsEditUserOpen(user?.id)}
                     />
-                    {isEditUserOpen && (
+                    {isEditUserOpen === user?.id && (
                       <EditUser
                         closeModal={closeEditUserModal}
                         isModalOpen={isEditUserOpen}
+                        userId={user?.id}
                       />
                     )}
                     <RiDeleteBin6Fill className="cursor-pointer hover:text-red-500" />
@@ -96,6 +110,12 @@ const Users = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        totalItems={USERS?.length}
+        itemsPerPage={userPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 };
