@@ -30,9 +30,9 @@ const AdminLayout = () => {
           }`}
         >
           <Navbar toggleSidebar={toggleSidebar} />
-          <div className="bg-gray-200 min-h-screen overflow-hidden p-4">
+          <div className="bg-gray-200 min-h-[calc(100vh-4rem)] overflow-hidden p-4">
             <div
-              className={`flex items-center gap-1 text-2xl ${
+              className={`flex items-center gap-1 ${
                 pathnames.length === 0 ? "p-0" : "pb-4"
               }`}
             >
@@ -62,7 +62,7 @@ const AdminLayout = () => {
                 );
               })}
             </div>
-            <div className="">
+            <div>
               <Outlet />
             </div>
           </div>

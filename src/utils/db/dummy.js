@@ -14,17 +14,17 @@ export const USERS = [
     isEnabled: false,
   },
   {
-    id: "1",
+    id: "3",
     name: "test maharjan",
     role: "1",
-    email: "admin@gmail.com",
+    email: "admin1212@gmail.com",
     isEnabled: true,
   },
   {
-    id: "2",
+    id: "4",
     name: "test1 maharjan",
     role: "2",
-    email: "admin1@gmail.com",
+    email: "adminasdasd@gmail.com",
     isEnabled: false,
   },
 ];
@@ -35,7 +35,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },
@@ -44,7 +44,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "99",
     productStock: "10",
   },
@@ -53,7 +53,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "9",
     productStock: "10",
   },
@@ -62,7 +62,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "9009",
     productStock: "10",
   },
@@ -71,7 +71,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "9439",
     productStock: "10",
   },
@@ -80,7 +80,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },
@@ -89,7 +89,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "232",
     productStock: "10",
   },
@@ -98,7 +98,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "23",
     productStock: "10",
   },
@@ -107,7 +107,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },
@@ -116,7 +116,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },
@@ -125,7 +125,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },
@@ -134,7 +134,7 @@ export const PRODUCTS = [
     productName: "Pants",
     productImage:
       "https://5.imimg.com/data5/SELLER/Default/2024/4/406860048/XV/LQ/VC/2602245/men-formal-trouser.jpg",
-    productCategory: "Clothes",
+    productCategory: "Wools",
     productPrice: "999",
     productStock: "10",
   },

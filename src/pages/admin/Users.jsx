@@ -6,14 +6,24 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import EditUser from "components/admin/EditUser";
 import Pagination from "components/Pagination";
+import { useModal } from "src/hooks/useModal";
 
 const Users = () => {
-  const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
-  const [isEditUserOpen, setIsEditUserOpen] = useState(null);
+  const {
+    isOpen: isCreateUserModalOpen,
+    openModal: openCreateUserModal,
+    closeModal: closeCreateUserModal,
+  } = useModal();
+
+  const {
+    isOpen: isEditUserOpen,
+    openModal: openEditUserModal,
+    closeModal: closeEditUserModal,
+  } = useModal();
 
   // State to track the current page
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("🚀 ~ Products ~ currentPage:", currentPage);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const userPerPage = 4;
 
   // Calculate the index of the last and first product based on the current page
@@ -23,11 +33,9 @@ const Users = () => {
   // Slice the PRODUCTS array to get only the products for the current page
   const currentUsers = USERS.slice(indexOfFirstUser, indexOfLastUser);
 
-  const closeCreateUserModal = () => {
-    setIsCreateUserModalOpen(false);
-  };
-  const closeEditUserModal = () => {
-    setIsEditUserOpen(null);
+  const handleEditClick = (userId) => {
+    setSelectedUserId(userId); // Set selected user ID
+    openEditUserModal(); // Open the edit modal
   };
 
   return (
@@ -43,7 +51,7 @@ const Users = () => {
         </div>
         <button
           className="bg-teal-600 px-4 py-2 text-white rounded-md w-fit hover:bg-teal-600/90"
-          onClick={() => setIsCreateUserModalOpen(true)}
+          onClick={openCreateUserModal}
         >
           Create&nbsp;User
         </button>
@@ -93,9 +101,9 @@ const Users = () => {
                   <div className="p-2 flex items-center gap-2 my-auto text-xl">
                     <FiEdit
                       className="cursor-pointer hover:text-blue-500"
-                      onClick={() => setIsEditUserOpen(user?.id)}
+                      onClick={() => handleEditClick(user?.id)}
                     />
-                    {isEditUserOpen === user?.id && (
+                    {isEditUserOpen && selectedUserId === user.id && (
                       <EditUser
                         closeModal={closeEditUserModal}
                         isModalOpen={isEditUserOpen}

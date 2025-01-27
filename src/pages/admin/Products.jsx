@@ -1,23 +1,28 @@
 import CreateProduct from "components/admin/CreateProduct";
 import EditProduct from "components/admin/EditProduct";
-import RegisterUser from "components/admin/RegisterUser";
 import ConformationBox from "components/ConformationBox";
 import Pagination from "components/Pagination";
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { useModal } from "src/hooks/useModal";
 import { PRODUCTS } from "src/utils/db/dummy";
 
 const Products = () => {
-  const [isEditProductOpen, setIsEditProductOpen] = useState(null);
   const [isProductDeleteOpen, setIsProductDeleteOpen] = useState(null);
-  const [isCreateProductModalOpen, setIsCreateProductModalOpen] =
-    useState(false);
+
+  // const {
+  //   isOpen: isEditProductModalOpen,
+  //   openModal: openEditProductModal,
+  //   closeModal: closeEditProductModal,
+  // } = useModal();
 
   // State to track the current page
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("🚀 ~ Products ~ currentPage:", currentPage);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+
   const productsPerPage = 4;
 
   // Calculate the index of the last and first product based on the current page
@@ -30,17 +35,15 @@ const Products = () => {
     indexOfLastProduct
   );
 
-  const closeEditProductModal = () => {
-    setIsEditProductOpen(null);
+  const handleEditClick = (userId) => {
+    setSelectedProductId(userId); // Set selected user ID
+    openEditProductModal(); // Open the edit modal
   };
 
   const closeProductDeleteModal = () => {
     setIsProductDeleteOpen(null);
   };
 
-  const closeCreateProductModal = () => {
-    setIsCreateProductModalOpen(false);
-  };
   return (
     <>
       <div className="flex justify-between gap-4 mb-4">
@@ -52,18 +55,20 @@ const Products = () => {
           />
           <CiSearch className="absolute top-1/2 -translate-y-1/2 left-1 text-2xl" />
         </div>
-        <button
-          className="bg-teal-600 px-4 py-2 text-white rounded-md w-fit hover:bg-teal-600/90"
-          onClick={() => setIsCreateProductModalOpen(true)}
-        >
-          Create&nbsp;Product
-        </button>
-        {isCreateProductModalOpen && (
+        <Link to="create">
+          <button
+            className="bg-teal-600 px-4 py-2 text-white rounded-md w-fit hover:bg-teal-600/90"
+            // onClick={openCreateProductModal}
+          >
+            Create&nbsp;Product
+          </button>
+        </Link>
+        {/* {isCreateProductModalOpen && (
           <CreateProduct
             isModalOpen={isCreateProductModalOpen}
             closeModal={closeCreateProductModal}
           />
-        )}
+        )} */}
       </div>
       <div className="bg-white rounded-t-xl">
         <table className="min-w-full rounded-md table-auto border-collapse">
@@ -107,20 +112,23 @@ const Products = () => {
 
                 <td>
                   <div className="p-2 flex items-center gap-2 my-auto text-xl">
-                    <FiEdit
-                      className="cursor-pointer hover:text-blue-500"
-                      onClick={() => setIsEditProductOpen(product?.id)}
-                    />
-                    {isEditProductOpen === product.id && (
-                      <EditProduct
-                        closeModal={closeEditProductModal}
-                        isModalOpen={isEditProductOpen}
-                        productId={product?.id}
+                    <Link to={`${product.id}`}>
+                      <FiEdit
+                        className="cursor-pointer hover:text-blue-500"
+                        // onClick={() => handleEditClick(product?.id)}
                       />
-                    )}
+                    </Link>
+                    {/* {isEditProductModalOpen &&
+                      selectedProductId === product.id && (
+                        <EditProduct
+                          closeModal={closeEditProductModal}
+                          isModalOpen={isEditProductModalOpen}
+                          productId={product?.id}
+                        />
+                      )} */}
                     <RiDeleteBin6Fill
                       className="cursor-pointer hover:text-red-500"
-                      onClick={() => setIsProductDeleteOpen(product?.id)}
+                      onClick={() => setIsProductDeleteOpen(product.id)}
                     />
                     {isProductDeleteOpen === product.id && (
                       <ConformationBox

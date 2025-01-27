@@ -1,60 +1,3 @@
-// import React from "react";
-
-// const Pagination = ({
-//   totalItems,
-//   itemsPerPage,
-//   currentPage,
-//   setCurrentPage,
-// }) => {
-//   // Calculate total number of pages
-//   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-//   // Handler functions for pagination
-//   const nextPage = () => {
-//     if (currentPage < totalPages) {
-//       setCurrentPage(currentPage + 1);
-//     }
-//   };
-
-//   const prevPage = () => {
-//     if (currentPage > 1) {
-//       setCurrentPage(currentPage - 1);
-//     }
-//   };
-
-//   return (
-//     <>
-//       {/* Pagination Controls */}
-//       <div className="flex justify-center gap-4 items-center mt-4">
-//         {/* Previous Button */}
-//         <button
-//           onClick={prevPage}
-//           disabled={currentPage === 1}
-//           className="px-4 py-2 bg-gray-300 text-black rounded-lg disabled:opacity-50"
-//         >
-//           Previous
-//         </button>
-
-//         {/* Page Number Display */}
-//         <span className="text-lg font-semibold">
-//           Page {currentPage} of {totalPages}
-//         </span>
-
-//         {/* Next Button */}
-//         <button
-//           onClick={nextPage}
-//           disabled={currentPage === totalPages}
-//           className="px-4 py-2 bg-gray-300 text-black rounded-lg disabled:opacity-50"
-//         >
-//           Next
-//         </button>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Pagination;
-
 import React from "react";
 
 const Pagination = ({
@@ -121,7 +64,6 @@ const Pagination = ({
 
     return result;
   };
-  console.log(totalPages);
 
   return (
     <>
